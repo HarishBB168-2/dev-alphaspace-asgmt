@@ -14,6 +14,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useMediaQuery } from "@chakra-ui/react";
 
 const tshirts: any[string] = {
   white:
@@ -35,8 +36,12 @@ const App = () => {
   const [lowerText, setLowerText] = useState("Lower Text");
   const [textSize, setTextSize] = useState(36);
   const [textColor, setTextColor] = useState("white");
+  const [imageWidth, setImageWidth] = useState(200);
+
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
+
   return (
-    <Flex p="10px" gap="10px">
+    <Flex p="10px" gap="10px" flexDir={isLargerThan800 ? "row" : "column"}>
       <Flex
         maxH="80vh"
         flexGrow="2"
@@ -57,7 +62,11 @@ const App = () => {
           <Text color={textColor} fontWeight="bold" fontSize={`${textSize}px`}>
             {upperText}
           </Text>
-          <Flex w="200px" h="150px" bg="white"></Flex>
+          <Flex
+            w={`${imageWidth}px`}
+            h={`${0.75 * imageWidth}px`}
+            bg="white"
+          ></Flex>
           <Text color={textColor} fontWeight="bold" fontSize={`${textSize}px`}>
             {lowerText}
           </Text>
@@ -117,6 +126,20 @@ const App = () => {
               colorScheme="teal"
               defaultValue={[36]}
               onChangeEnd={(val) => setTextSize(val[0])}
+            >
+              <RangeSliderTrack>
+                <RangeSliderFilledTrack />
+              </RangeSliderTrack>
+              <RangeSliderThumb index={0} />
+            </RangeSlider>
+            <Text>Image Width</Text>
+            <RangeSlider
+              aria-label={["value"]}
+              colorScheme="teal"
+              min={50}
+              max={300}
+              defaultValue={[150]}
+              onChangeEnd={(val) => setImageWidth(val[0])}
             >
               <RangeSliderTrack>
                 <RangeSliderFilledTrack />
